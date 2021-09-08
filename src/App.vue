@@ -11,7 +11,7 @@
           <NewsMenu 
             :menuList="menuList">
           </NewsMenu>
-        </div>
+        </div> 
       </div>
       <div class="col-xs-6">
         <div class="panel">
