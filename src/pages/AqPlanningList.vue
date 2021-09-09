@@ -21,7 +21,7 @@
               <a-input v-model="queryParam.projectName" placeholder="请输入项目名称"></a-input>
             </a-form-item>
           </a-col>
-          <!-- template标签天生不可见，它设置了display:none属性 -->
+          <!-- template标签默认不可见，它设置了display:none属性 -->
           <template v-if="toggleSearchStatus">
             <a-col :xl="6" :lg="7" :md="8" :sm="24">
               <a-form-item label="项目编号">
@@ -32,6 +32,7 @@
           <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <!-- button type="primary" 按钮类型四样式之一，主按钮 -->
+              <!-- 高级查询按钮调用 superQuery方法 -->
               <a-button type="primary" icon="search" @click="searchQuery">查询</a-button>
               <a-button type="primary" icon="reload" @click="searchReset" style="margin-left: 8px">重置</a-button>
               <a style="margin-left: 8px" @click="handleToggleSearch">
@@ -160,10 +161,10 @@ export default {
   mixins: [JeecgListMixin, mixinDevice],
   data() {
     return {
-
       description: '安全策划-安全策划管理页面',
       // 表头
       columns: [],
+      // data中url定义 list为查询列表  delete为删除单条记录  deleteBatch为批量删除
       url: {
         list: '/aq/aqPlanning/list',
         delete: '/aq/aqPlanning/delete',
@@ -177,17 +178,18 @@ export default {
     }
   },
   computed: {
+    // 导入Excel表格
     importExcelUrl: function () {
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
     },
   },
-    // 创建时启动
+    // 生命周期钩子，创建时启动
   created() {
     this.initDictConfig()
     this.initColumns()
   },
   methods: {
-    // 定义列样式
+    // 初始化列样式
     // 每一列都是一个对象，定义标题，样式等
     initColumns() {
       this.columns = [
@@ -203,6 +205,7 @@ export default {
             return parseInt(index, 10) + 1
           },
         },
+        // 设置项目名称列
         {
           title: '项目名称',
           align: 'center',
@@ -211,9 +214,11 @@ export default {
             if (!text) {
               return ''
             }
+            // 适配移动端
             if (this.isMobile()) {
               return text.length > 20 ? text.substring(0, 20) + '...' : text
             }
+            // // 项目名称超过20个字符则只显示前20个字符，剩余用 … 表示
             if (text.length > 20) {
                 // tooltip是悬停文字气泡
                 // slot插槽
@@ -277,7 +282,7 @@ export default {
         },
       ]
     },
-    // 定义
+    // 初始化……
     initDictConfig() {
       initDictOptions('bpm_status').then(res => {
         if (res.success) {
@@ -288,6 +293,7 @@ export default {
     // 点击提交流程触发的函数
     startProcess: function (record) {
       var that = this
+      // 确认提交流程请求
       this.$confirm({
         title: '提示',
         content: '确认提交流程吗?',
@@ -310,7 +316,7 @@ export default {
         },
       })
     },
-    // 流程图
+    // 流程图——在哪，没找到
     handlePreviewPic: function (record) {
       var flowCode = this.flowCode
       var dataId = record.id

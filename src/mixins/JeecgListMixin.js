@@ -5,9 +5,7 @@
  */
 import { getFileAccessHttpUrl } from '@/api/manage'
 import { filterObj } from '@/utils/util'
-import {
-  deleteAction, getAction, downFile, getFileDownloadHttpUrl,
-} from '@/api/manage'
+import { deleteAction, getAction, downFile, getFileDownloadHttpUrl,} from '@/api/manage'
 import Vue from 'vue'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import _ from 'lodash'

@@ -58,6 +58,7 @@
             </el-table-column>
         </el-table>
 
+        <!-- 点击新增弹出的dialog对话框 -->
         <el-dialog title="新增新闻" :visible.sync="dialogFormVisible" center>
         <el-form :model="form">
             <el-form-item label="新闻标题" :label-width="formLabelWidth">
@@ -198,7 +199,7 @@
             // 再新建一个方法函数的写法
             // this.$bus.$on('showNewsList', this.updateNewsList)
             this.$bus.$on('showNewsList', (newsList) => {
-                console.log("嗖嗖嗖！接受到NewsMenuItem传来的数据了")
+                console.log("嗖嗖嗖！接收到NewsMenuItem传来的数据了")
                 this.newsList = newsList
             })
         },
