@@ -10,7 +10,7 @@
         <div class="list-group">
           <NewsMenu 
             :menuList="menuList">
-          </NewsMenu>
+          </NewsMenu> 
         </div> 
       </div>
       <div class="col-xs-6">
