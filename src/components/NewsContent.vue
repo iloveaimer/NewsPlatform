@@ -22,7 +22,8 @@
                         <p>内容: {{ scope.row.content }}</p>
                         <div slot="reference" class="name-wrapper">
                             <!-- <el-tag size="medium">{{ scope.row.title }}</el-tag> -->
-                            {{ scope.row.title }}
+                            <!-- 条件运算符，标题过长的只取前20个字符并加上 … -->
+                            {{ scope.row.title.length>20 ? scope.row.title.substr(0, 20) + '…' : scope.row.title}}
                         </div>
                     </el-popover>
                 </template>
@@ -58,7 +59,7 @@
             </el-table-column>
         </el-table>
 
-        <!-- 点击新增弹出的dialog对话框 -->
+        <!-- 点击新增弹出的dialog对话框，嵌套表单内容，并对表单相关内容进行设置 -->
         <el-dialog title="新增新闻" :visible.sync="dialogFormVisible" center>
         <el-form :model="form">
             <el-form-item label="新闻标题" :label-width="formLabelWidth">
@@ -193,12 +194,29 @@
             },
             handleDelete(index, row) {
                 console.log(index, row);
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功————骗你的'
+                });
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });          
+                });
             }
         },
         mounted(){
             // 再新建一个方法函数的写法
             // this.$bus.$on('showNewsList', this.updateNewsList)
-            this.$bus.$on('showNewsList', (newsList) => {
+            // 不写方法函数，直接上的写法
+            // 注意箭头函数的写法，左边形参，右边返回值            
+            this.$bus.$on('showNewsList', newsList => {
                 console.log("嗖嗖嗖！接收到NewsMenuItem传来的数据了")
                 this.newsList = newsList
             })
