@@ -26,7 +26,7 @@
                 // console.log("点击了" + this.menu.title + "，栏目编号为" + this.menu.menuCode)
                 console.log("点击了", this.menu.title, "，栏目编号为" , this.menu.menuCode)
                 let url = `http://192.168.17.33:8087/jeecg-boot/cms/eoaCmsArticle/getArticles?_t=1629334431&pageNo=1&pageSize=20&menuCode=${this.menu.menuCode}`
-                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzExOTE0NDQsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.AvvGMrYg8PxEAHF5Wpy3Guh_CuS7_gsuzPQ7Jtx1JE0'
+                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzEyNTQyOTIsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.q5bkLFxtMEKcKNk-8OkDs4tFh6s0OJSLzHnjuDCf13A'
                 this.axios({                
                     method: 'get',  
                     url: url,              
@@ -39,7 +39,7 @@
                         this.$bus.$emit('showNewsList', this.newsList)  
                         },
                     (errror)=>{
-                        console.log("测试环境暂停5分钟", errror.message)
+                        console.log("更新token或者测试环境暂停5分钟", errror.message)
                     })
                 // this.$bus.$emit('showNewsList', this.newsList)  // 应该写axios函数里面，写外面没用，数据发不出去
             },

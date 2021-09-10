@@ -139,6 +139,7 @@
         </span>
       </a-table>
     </div>
+    <!-- ????? -->
     <ext-act-process-inst-pic-modal ref="extActProcessInstPicModal"></ext-act-process-inst-pic-modal>
     <aqPlanning-modal ref="modalForm" @ok="modalFormOk"></aqPlanning-modal>
   </a-card>
@@ -150,6 +151,7 @@ import { postAction } from '@api/manage'
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import AqPlanningModal from './AqPlanningModal'
 import '@/assets/less/TableExpand.less'
+// JDictSelectUtil.js 列表字典函数，引入依赖方法
 import { initDictOptions, filterMultiDictText } from '@/components/dict/JDictSelectUtil'
 import extActProcessInstPicModal from '@views/modules/extbpm/process/modules/ExtActProcessInstPicModal.vue'
 import { mixinDevice } from '@/utils/mixin' // 手机端判定的必要方法
@@ -183,7 +185,8 @@ export default {
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
     },
   },
-    // 生命周期钩子，创建时启动
+    //在created()初始化方法执行字典配置方法
+    //初始化字典配置
   created() {
     this.initDictConfig()
     this.initColumns()
@@ -218,9 +221,9 @@ export default {
             if (this.isMobile()) {
               return text.length > 20 ? text.substring(0, 20) + '...' : text
             }
-            // // 项目名称超过20个字符则只显示前20个字符，剩余用 … 表示
+            // 项目名称超过20个字符则只显示前20个字符，剩余用 … 表示
             if (text.length > 20) {
-                // tooltip是悬停文字气泡
+                // tooltip是悬停文字气泡，显示标题全称
                 // slot插槽
               return <a-tooltip>
                         <template slot="title">
@@ -242,6 +245,44 @@ export default {
           align: 'center',
           dataIndex: 'branchOfName',
         },
+        // {
+        //   title:'工程地址',
+        //   align:"center",
+        //   dataIndex: 'address'
+        // },
+        // {
+        //   title:'施工单位',
+        //   align:"center",
+        //   dataIndex: 'unit'
+        // },
+        // {
+        //   title:'项目经理',
+        //   align:"center",
+        //   dataIndex: 'manager'
+        // },
+        // {
+        //   title:' 项目总工',
+        //   align:"center",
+        //   dataIndex: 'engineer'
+        // },
+        // {
+        //   title:' 施工面积',
+        //   align:"center",
+        //   dataIndex: 'area'
+        // },
+        // {
+        //   title:'合同额',
+        //   align:"center",
+        //   dataIndex: 'amount'
+        // },
+        // {
+        //   title:'开工日期',
+        //   align:"center",
+        //   dataIndex: 'startDate',
+        //   customRender:function (text) {
+        //     return !text?"":(text.length>10?text.substr(0,10):text)
+        //   }
+        // },
         {
           title: '创建人',
           align: 'center',
@@ -251,6 +292,7 @@ export default {
           title: '创建时间',
           align: 'center',
           dataIndex: 'createTime',
+          // 
           customRender: function (text) {
             return !text ? '' : (text.length > 10 ? text.substr(0, 10) : text)
           },
@@ -264,7 +306,9 @@ export default {
         {
           title: '审核状态',
           align: 'center',
-          dataIndex: 'bpmStatus',
+          dataIndex: 'bpmStatus', //业务流程管理状态
+          // 简写箭头函数，相当于
+          // customRender:function(text) {},
           customRender: text => {
             if (!text) {
               return ''
@@ -282,10 +326,12 @@ export default {
         },
       ]
     },
-    // 初始化……
+    // 实现initDictConfig方法，加载列表所需要的字典(列表上有多个字典项，就执行多次initDictOptions方法)
     initDictConfig() {
+      // 初始化字典-流程状态
       initDictOptions('bpm_status').then(res => {
         if (res.success) {
+          // this.$set(obj, key, value) vue.set(obj, key, value) 为对象添加属性
           this.$set(this.dictOptions, 'bpmStatus', res.result)
         }
       })

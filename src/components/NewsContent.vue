@@ -4,7 +4,7 @@
         <el-button type="text" @click="open">输入邮箱</el-button>
         <!-- Form -->
         <el-button type="text" @click="dialogFormVisible = true">点击新增</el-button>
-
+        <!-- sortable实际体验发现中文排序不是按拼音首字符排序 -->
         <el-table
             :data="newsList"
             style="width: 100%"
