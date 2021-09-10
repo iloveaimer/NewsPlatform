@@ -1,10 +1,13 @@
 <template>
     <div >
+        <!-- 头部标题以及新增新闻按钮 -->
         <h2 style="color: #0081cc">{{newsList[0].columnId_dictText}}</h2>
-        <el-button type="text" @click="open">输入邮箱</el-button>
-        <!-- Form -->
+        <!-- message box 试验 -->
+        <!-- <el-button type="text" @click="open">输入邮箱</el-button> -->
         <el-button type="text" @click="dialogFormVisible = true">点击新增</el-button>
-        <!-- sortable实际体验发现中文排序不是按拼音首字符排序 -->
+
+        <!-- 列表新闻展示区 -->
+            <!-- sortable实际体验发现中文排序不是按拼音首字符排序 -->
         <el-table
             :data="newsList"
             style="width: 100%"
@@ -46,7 +49,7 @@
                 <template slot-scope="scope">
                     <el-button
                         size="mini"
-                        @click="handleEdit(scope.$index, scope.row)">
+                        @click="editFormVisible = true">
                         编辑
                     </el-button>
                     <el-button
@@ -61,51 +64,103 @@
 
         <!-- 点击新增弹出的dialog对话框，嵌套表单内容，并对表单相关内容进行设置 -->
         <el-dialog title="新增新闻" :visible.sync="dialogFormVisible" center>
-        <el-form :model="form">
-            <el-form-item label="新闻标题" :label-width="formLabelWidth">
-                <el-input 
-                    v-model="form.title" 
-                    autocomplete="off" 
-                    maxlength="10"
-                    show-word-limit
-                    clearable></el-input>
-            </el-form-item>
-            <el-form-item label="新闻内容" :label-width="formLabelWidth">
-                <el-input  
-                    type="textarea"
-                    :autosize="{ minRows: 2, maxRows: 6}"
-                    v-model="form.content" 
-                    autocomplete="off" 
-                    clearable>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="创建时间" :label-width="formLabelWidth">
-                <el-date-picker
-                    v-model="form.updateTime"
-                    value-format="yyyy-MM-dd hh:mm:ss"
-                    type="datetime"
-                    placeholder="选择日期时间"
-                    align="right"
-                    :picker-options="pickerOptions">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="编辑作者" :label-width="formLabelWidth">
-                <el-input v-model="form.author" autocomplete="off" clearable></el-input>
-            </el-form-item>
-            <el-form-item label="所处栏目" :label-width="formLabelWidth">
-                <el-select v-model="form.columnId_dictText" placeholder="请选择栏目分类">
-                    <el-option label="公司新闻" value="company_news"></el-option>
-                    <el-option label="通知公告" value="notice"></el-option>
-                    <el-option label="文件中心" value="files_center"></el-option>
-                    <el-option label="要事通报" value="important_notice"></el-option>
-                    <el-option label="管理创新" value="management_innovation"></el-option>
-                </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false; add()">确 定</el-button>
-        </div>
+            <el-form :model="form">
+                <el-form-item label="新闻标题" :label-width="formLabelWidth">
+                    <el-input 
+                        v-model="form.title" 
+                        autocomplete="off" 
+                        maxlength="10"
+                        show-word-limit
+                        clearable></el-input>
+                </el-form-item>
+                <el-form-item label="新闻内容" :label-width="formLabelWidth">
+                    <el-input  
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 6}"
+                        v-model="form.content" 
+                        autocomplete="off" 
+                        clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="创建时间" :label-width="formLabelWidth">
+                    <el-date-picker
+                        v-model="form.updateTime"
+                        value-format="yyyy-MM-dd hh:mm:ss"
+                        type="datetime"
+                        placeholder="选择日期时间"
+                        align="right"
+                        :picker-options="pickerOptions">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="编辑作者" :label-width="formLabelWidth">
+                    <el-input v-model="form.author" autocomplete="off" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="所处栏目" :label-width="formLabelWidth">
+                    <el-select v-model="form.columnId_dictText" placeholder="请选择栏目分类">
+                        <el-option label="公司新闻" value="company_news"></el-option>
+                        <el-option label="通知公告" value="notice"></el-option>
+                        <el-option label="文件中心" value="files_center"></el-option>
+                        <el-option label="要事通报" value="important_notice"></el-option>
+                        <el-option label="管理创新" value="management_innovation"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <!-- 点击确定将新增新闻push进newslist -->
+                <el-button type="primary" @click="dialogFormVisible = false; add()">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 点击编辑试验田 -->
+            <!-- 想建一个临时新闻列表，对其读写操作点击确认后替换原有newslist -->
+        <!-- 点击编辑跳出的对话框————有没有除了对话框的展现形式？一个页面两个隐藏对话框太恐怖了 -->
+        <el-dialog title="编辑新闻" :visible.sync="editFormVisible" center>
+            <el-form :model="editNewsList">
+                <el-form-item label="新闻标题" :label-width="formLabelWidth">
+                    <el-input 
+                        v-model="editNewsList.title" 
+                        autocomplete="off" 
+                        maxlength="10"
+                        show-word-limit
+                        clearable></el-input>
+                </el-form-item>
+                <el-form-item label="新闻内容" :label-width="formLabelWidth">
+                    <el-input  
+                        type="textarea"
+                        :autosize="{ minRows: 2, maxRows: 6}"
+                        v-model="editNewsList.content" 
+                        autocomplete="off" 
+                        clearable>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="创建时间" :label-width="formLabelWidth">
+                    <el-date-picker
+                        v-model="editNewsList.updateTime"
+                        value-format="yyyy-MM-dd hh:mm:ss"
+                        type="datetime"
+                        placeholder="选择日期时间"
+                        align="right"
+                        :picker-options="pickerOptions">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item label="编辑作者" :label-width="formLabelWidth">
+                    <el-input v-model="editNewsList.author" autocomplete="off" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="所处栏目" :label-width="formLabelWidth">
+                    <el-select v-model="editNewsList.columnId_dictText" placeholder="请选择栏目分类">
+                        <el-option label="公司新闻" value="company_news"></el-option>
+                        <el-option label="通知公告" value="notice"></el-option>
+                        <el-option label="文件中心" value="files_center"></el-option>
+                        <el-option label="要事通报" value="important_notice"></el-option>
+                        <el-option label="管理创新" value="management_innovation"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="editFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="editFormVisible = false; add()">确 定</el-button>
+            </div>
         </el-dialog>
     </div>
 </template>
@@ -116,10 +171,12 @@
         data(){
             return{
                 newsList:[],
+                editNewsList:[],
                 // columnId_dictText:"",
                 addForm:[],
                 dialogTableVisible: false,
                 dialogFormVisible: false,
+                editFormVisible: false,
                 input:'',
                 form: {
                     title: '',
@@ -165,7 +222,7 @@
                 this.newsList = newsList
                 console.log("更新" + this.newsList.length + "条新闻")
             },
-            open() {
+/*             open() {
                 this.$prompt('请输入邮箱', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -182,33 +239,40 @@
                             message: '取消输入'
                         });       
                     });
-            },
+            }, */
             add(){
                 console.log("新增一条新闻")
                 const addForm = this.form
-                this.form = {}
+                this.form = {}  //填写完对话框记得清空以备下次新增新闻使用
                 this.newsList.push(addForm)
             },
-            handleEdit(index, row) {
-                console.log(index, row);
-            },
+            // handleEdit(index, row) {
+            //     console.log(index, row);
+            //     editFormVisible = true;
+            // },
+            // 添加一个messagebox，删除操作进行相关提醒
             handleDelete(index, row) {
                 console.log(index, row);
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-                }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功————骗你的'
-                });
-                }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });          
-                });
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        /* 
+                            预备写入删除操作函数 
+                        */
+                        // this.todos = this.todos.filter( todo => todo.id !== id )
+                        // this.newsList = this.newsList.filter( newsList => newsList.id !== id)
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功——还没实现'
+                        });
+                      }).catch(() => {
+                        this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                        });          
+                      });
             }
         },
         mounted(){
@@ -219,6 +283,8 @@
             this.$bus.$on('showNewsList', newsList => {
                 console.log("嗖嗖嗖！接收到NewsMenuItem传来的数据了")
                 this.newsList = newsList
+                // 试验
+                this.editNewsList = newsList
             })
         },
         beforeDestroy() {
