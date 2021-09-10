@@ -293,7 +293,8 @@ export default {
           align: 'center',
           dataIndex: 'createTime',
           // 
-          customRender: function (text) {
+          customRender (text) {
+            // 创建时间只取前十个字符，即 YYYY-MM-DD，去除后面的时分秒
             return !text ? '' : (text.length > 10 ? text.substr(0, 10) : text)
           },
         },
@@ -362,6 +363,7 @@ export default {
         },
       })
     },
+    
     // 流程图——在哪，没找到
     handlePreviewPic: function (record) {
       var flowCode = this.flowCode
