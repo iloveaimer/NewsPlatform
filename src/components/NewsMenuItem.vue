@@ -38,7 +38,7 @@
                 }).then(
                     (response)=>{
                         console.log("请求成功:", response)
-                        this.newsList=response.data.result.records;            
+                        this.newsList = response.data.result.records;            
                         console.log(this.newsList)
                         this.$bus.$emit('showNewsList', this.newsList)  
                         },
