@@ -25,8 +25,12 @@
             getNewsList() {
                 // console.log("点击了" + this.menu.title + "，栏目编号为" + this.menu.menuCode)
                 console.log("点击了", this.menu.title, "，栏目编号为" , this.menu.menuCode)
-                let url = `http://192.168.17.33:8087/jeecg-boot/cms/eoaCmsArticle/getArticles?_t=1629334431&pageNo=1&pageSize=20&menuCode=${this.menu.menuCode}`
-                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzEyNTQyOTIsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.q5bkLFxtMEKcKNk-8OkDs4tFh6s0OJSLzHnjuDCf13A'
+                // 测试环境url
+                // let url = `http://192.168.17.33:8087/jeecg-boot/cms/eoaCmsArticle/getArticles?_t=1629334431&pageNo=1&pageSize=20&menuCode=${this.menu.menuCode}`
+                // 正式环境url
+                let url = `http://www.cscec83.cn:8089/jeecg-boot/cms/eoaCmsArticle/getArticles?_t=1631519813&pageNo=1&pageSize=20&menuCode=${this.menu.menuCode}`
+                
+                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzE1MjMyMTcsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.843GZleOspJ2urnqiJUoac21YO5En-FrsE30kj-FCcI'
                 this.axios({                
                     method: 'get',  
                     url: url,              

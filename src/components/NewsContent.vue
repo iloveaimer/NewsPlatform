@@ -16,7 +16,7 @@
                 prop="title"
                 label="新闻标题"
                 sortable
-                width="300">
+                width="320">
                 <!-- 悬浮可显示新闻相关信息 -->
                 <!-- 得按需引入Element插件Popover -->
                 <template slot-scope="scope">
@@ -35,7 +35,7 @@
                 prop="author"
                 label="作者"
                 sortable
-                width="100">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="updateTime"
