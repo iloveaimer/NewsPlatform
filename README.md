@@ -1,6 +1,7 @@
 # news_platform 练习
 
 参考尚硅谷教程
+test2
 
 ## Project setup
 
