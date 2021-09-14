@@ -30,7 +30,7 @@
                 // 正式环境url
                 let url = `http://www.cscec83.cn:8089/jeecg-boot/cms/eoaCmsArticle/getArticles?_t=1631519813&pageNo=1&pageSize=20&menuCode=${this.menu.menuCode}`
                 
-                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzE1MjMyMTcsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.843GZleOspJ2urnqiJUoac21YO5En-FrsE30kj-FCcI'
+                let token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MzE2MjIwMTYsInVzZXJuYW1lIjoiNTAyQTM5MzkifQ.QbKAuV5jNZfze0AAPa95IT-g5S4lBnahS91caXVmpcI'
                 this.axios({                
                     method: 'get',  
                     url: url,              

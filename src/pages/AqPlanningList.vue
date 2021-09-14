@@ -86,8 +86,7 @@
         :pagination="ipagination"
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-        @change="handleTableChange"
-      >
+        @change="handleTableChange">
         <template slot="htmlSlot" slot-scope="text">
           <div v-html="text"></div>
         </template>
@@ -204,7 +203,11 @@ export default {
           fixed: this.isMobile() ? false : 'left',
           align: 'center',
         //   customRender自定义渲染
+        // 下面这是ES5写法
+        // ES6写法如下
+        // customRender(t, r, index) {
           customRender: function (t, r, index) {
+            // 返回序号
             return parseInt(index, 10) + 1
           },
         },
