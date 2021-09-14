@@ -1,7 +1,7 @@
 # news_platform 练习
 
 参考尚硅谷教程
-test
+test 创建分支
 
 ## Project setup
 
