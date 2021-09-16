@@ -1,8 +1,7 @@
 # news_platform 练习
 
 参考尚硅谷教程
-远程分支
-222
+这个是 test 分支
 
 ## Project setup
 
